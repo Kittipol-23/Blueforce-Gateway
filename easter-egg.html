@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROJECT: DAYZ // MEME HAZARD</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
+
+    :root {
+      --bg: #000000;
+      --text: #ffffff;
+      --yellow: #f2e600; 
+      --mono: 'Space Mono', monospace;
+      --sans: 'Inter', Helvetica, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      margin: 0;
+      padding: 40px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    * { box-sizing: border-box; }
+
+    /* Top Section */
+    .top-section {
+      width: 100%;
+      position: relative;
+      margin-bottom: 60px;
+    }
+
+    .top-line {
+      width: 40%;
+      height: 6px;
+      background: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .top-sub {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      color: #666;
+      margin-left: 30%;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: bold;
+      line-height: 1.4;
+      color: #aaa;
+    }
+
+    .top-right-dash {
+      display: block;
+      width: 12px;
+      height: 4px;
+      background: var(--text);
+      float: right;
+      margin-top: 10px;
+    }
+
+    /* Main Split */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 40px;
+      align-items: start;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Left Col Specific */
+    .big-rat {
+      font-size: 120px;
+      line-height: 1;
+      animation: spinY 1.2s linear infinite;
+      display: inline-block;
+      margin-bottom: 20px;
+      margin-left: -20px;
+    }
+    @keyframes spinY { 100% { transform: rotateY(360deg); } }
+    
+    .sub-col-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #eee;
+    }
+    .sub-col-text span {
+      display: block;
+      margin: 8px 0;
+      color: #666;
+    }
+
+    /* Mid Col Audio Btn */
+    .play-audio-btn {
+      background: transparent;
+      color: var(--yellow);
+      border: 2px solid var(--yellow);
+      padding: 12px 15px;
+      font-family: var(--mono);
+      font-weight: bold;
+      font-size: 10px;
+      cursor: pointer;
+      width: 100%;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .play-audio-btn:hover { background: var(--yellow); color: #000; }
+
+    /* Right Column (Yellow Box) */
+    .yellow-box {
+      background-color: var(--yellow);
+      padding: 30px;
+      position: relative;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+      color: #000;
+    }
+
+    .yellow-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .yellow-dash { width: 16px; height: 6px; background: #000; }
+
+    .gb-title {
+      font-family: var(--sans);
+      font-weight: 900;
+      font-size: 28px;
+      margin: 0;
+      color: rgba(0,0,0,0.85);
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    /* Log list */
+    .gb-list-container {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin: 20px 0;
+      max-height: 200px;
+    }
+    .gb-list-container::-webkit-scrollbar { width: 4px; }
+    .gb-list-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.5); }
+    
+    .gb-list { list-style: none; padding: 0; margin: 0; }
+    .gb-list li {
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #111;
+      word-wrap: break-word;
+    }
+    .gb-list li::before { content: ">_ "; opacity: 0.5; }
+
+    /* Guestbook Inputs */
+    .input-grp { margin-top: auto; z-index: 10; position: relative;}
+    .input-grp label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+      text-transform: uppercase;
+    }
+    .input-row { display: flex; gap: 10px; align-items: flex-end; }
+    .input-row input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid #000;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+      padding: 5px 0;
+      outline: none;
+    }
+    .submit-btn {
+      background: #000;
+      color: var(--yellow);
+      border: none;
+      padding: 8px 16px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: transform 0.1s;
+    }
+    .submit-btn:active { transform: scale(0.98); }
+
+    .yellow-bottom-decor {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .yellow-bottom-decor .bar { width: 12px; height: 6px; background: #000; }
+    .yellow-bottom-decor .line { width: 80px; height: 2px; background: rgba(0,0,0,0.2); }
+
+    /* Bottom Section */
+    .bottom-section {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-top: 60px;
+      gap: 15px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .bottom-line-container { flex-grow: 1; display: flex; align-items: center; gap: 10px; }
+    .bottom-thick { height: 12px; background: var(--text); width: 15%; }
+    .bottom-thin { height: 3px; background: var(--text); flex-grow: 1; }
+    .bottom-code { font-family: var(--mono); font-size: 10px; font-weight: bold; color: #666; }
+
+    /* Return link */
+    .return-link {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      z-index: 100;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: bold;
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .return-link:hover { color: #fff; }
+
+    .iframe-container { position: absolute; top:-9999px; width:1px; height:1px; }
+
+    @media (max-width: 800px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .top-right { position: relative; text-align: left; margin-top: 20px; }
+      .top-right-dash { float: left; margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="cloud.html" class="return-link">&lt; ABORT</a>
+
+  <div class="top-section">
+    <div style="margin-left: max(50px, 10vw);">
+      <div class="top-line"></div>
+      <div class="top-sub">[ DAYZ / PROTOCOL ]</div>
+    </div>
+    <div class="top-right">
+      BHC/<br>
+      SYSTEM_ANOMALY<br>
+      <div class="top-right-dash"></div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <!-- Col 1: Rat -->
+    <div class="col left-col">
+      <div class="big-rat">🐀</div>
+      <div class="sub-col-text">
+        Hazard Level<br>Omega
+        <span>-</span>
+        Spinning Protocol
+      </div>
+    </div>
+
+    <!-- Col 2: Audio Trigger Removed per request -->
+    <div class="col mid-col">
+      <div class="sub-col-text" style="margin-top: 20px;">
+        Audio Override<br>Active
+        <span>-</span>
+        Auto-Play Engaged
+      </div>
+      <audio id="ratAudio" src="SFX/freebird.mp3" autoplay loop style="display:none;"></audio>
+    </div>
+
+    <!-- Col 3: Yellow Box Guestbook -->
+    <div class="col right-col yellow-box">
+      <div class="yellow-box-header">
+        <div class="yellow-dash"></div>
+      </div>
+      
+      <div class="gb-title">SURVIVOR<br>LOG</div>
+      
+      <div class="gb-list-container">
+        <ul id="gbList" class="gb-list"></ul>
+      </div>
+
+      <div class="input-grp">
+        <label>CALLSIGN</label>
+        <div class="input-row">
+          <input type="text" id="gbInput" autocomplete="off" spellcheck="false" maxlength="40">
+          <button id="gbSubmit" class="submit-btn">% LOG</button>
+        </div>
+      </div>
+      
+      <div class="yellow-bottom-decor">
+        <div class="bar"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-section">
+    <div class="bottom-line-container">
+      <div class="bottom-thick"></div>
+      <div class="bottom-thin"></div>
+    </div>
+    <div class="bottom-code">[ 99/MEME/25565000 ]</div>
+  </div>
+
+  <script>
+    // Audio will auto-play via the <audio> tag.
+    // Ensure you place 'freebird.mp3' inside the 'SFX' folder properly.
+
+    // Guestbook logic
+    const gbList = document.getElementById('gbList');
+    const gbInput = document.getElementById('gbInput');
+    const gbSubmit = document.getElementById('gbSubmit');
+
+    const initial = JSON.parse(localStorage.getItem('dayz_easteregg') || '[]');
+    if(initial.length === 0){
+        // Provide some initial fun logs
+        initial.push({name: "Unknown_Scav", date: "DAY-102"});
+        initial.push({name: "Kittipol_P", date: "SECRET"});
+        localStorage.setItem('dayz_easteregg', JSON.stringify(initial));
+    }
+
+    function loadEntries() {
+      const entries = JSON.parse(localStorage.getItem('dayz_easteregg') || '[]');
+      gbList.innerHTML = '';
+      
+      // Reverse so the newest is at the top!
+      const reversed = [...entries].reverse();
+      
+      reversed.forEach(e => {
+        const li = document.createElement('li');
+        li.innerText = `[${e.date}] ${e.name}`;
+        gbList.appendChild(li);
+      });
+      // Scroll to the very top to see the newest entries immediately
+      gbList.parentElement.scrollTop = 0;
+    }
+
+    gbSubmit.addEventListener('click', submitEntry);
+    gbInput.addEventListener('keypress', function(e) {
+      if(e.key === 'Enter') submitEntry();
+    });
+
+    function submitEntry() {
+      const name = gbInput.value.trim();
+      if(!name) return;
+      
+      const entries = JSON.parse(localStorage.getItem('dayz_easteregg') || '[]');
+      const d = new Date();
+      // Format: YYMMDD-HHMM
+      const dateStr = `${d.getFullYear().toString().substring(2)}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}-${d.getHours().toString().padStart(2,'0')}${d.getMinutes().toString().padStart(2,'0')}`;
+      
+      entries.push({ name: name, date: dateStr });
+      localStorage.setItem('dayz_easteregg', JSON.stringify(entries));
+      
+      gbInput.value = '';
+      loadEntries();
+    }
+
+    loadEntries();
+  </script>
+</body>
+</html>

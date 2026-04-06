@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLUEFORCE // AUTHENTICATION</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap');
+
+    :root {
+      --bg: #f4f4f7;
+      --text: #1a1a1a;
+      --yellow: #f2e600; /* Vibrant yellow from image */
+      --mono: 'Space Mono', monospace;
+      --sans: 'Inter', Helvetica, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      margin: 0;
+      padding: 40px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    * { box-sizing: border-box; }
+
+    /* Top Section */
+    .top-section {
+      width: 100%;
+      position: relative;
+      margin-bottom: 60px;
+    }
+
+    .top-line {
+      width: 40%;
+      height: 6px;
+      background: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .top-sub {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      color: #666;
+      margin-left: 30%;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: right;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: bold;
+      line-height: 1.4;
+      color: #444;
+    }
+
+    .top-right-dash {
+      display: block;
+      width: 12px;
+      height: 4px;
+      background: var(--text);
+      float: right;
+      margin-top: 10px;
+    }
+
+    /* Main Split */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 40px;
+      align-items: start;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Left & Mid Columns */
+    .big-num {
+      font-size: 140px;
+      font-weight: 900;
+      color: #e0e0e4;
+      line-height: 0.8;
+      letter-spacing: -5px;
+      margin-bottom: 20px;
+    }
+
+    .sub-col-text {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #111;
+    }
+
+    .sub-col-text span {
+      display: block;
+      margin: 8px 0;
+      color: #888;
+    }
+
+    /* Right Column (Yellow Box) */
+    .yellow-box {
+      background-color: var(--yellow);
+      padding: 30px;
+      position: relative;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .yellow-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+
+    .yellow-dash {
+      width: 16px;
+      height: 6px;
+      background: var(--text);
+    }
+
+    .yellow-title {
+      font-size: 70px;
+      font-weight: 900;
+      color: rgba(26, 26, 26, 0.1);
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      line-height: 0.8;
+    }
+
+    .auth-text {
+      font-family: var(--sans);
+      font-weight: 900;
+      font-size: 12px;
+      text-align: right;
+      z-index: 10;
+    }
+
+    /* Form Styles */
+    #loginForm {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .input-row {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .input-row label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      color: #333;
+    }
+
+    .input-row input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid var(--text);
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--text);
+      padding: 5px 0;
+      outline: none;
+    }
+
+    .input-row input:focus {
+      border-bottom-color: #000;
+    }
+
+    .submit-row {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .submit-btn {
+      background: var(--text);
+      color: var(--yellow);
+      border: none;
+      padding: 12px 24px;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: transform 0.1s;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .error-msg {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      color: #d00;
+    }
+
+    .yellow-bottom-decor {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .yellow-bottom-decor .bar {
+      width: 12px;
+      height: 6px;
+      background: var(--text);
+    }
+
+    .yellow-bottom-decor .line {
+      width: 80px;
+      height: 2px;
+      background: rgba(0,0,0,0.2);
+    }
+
+    /* Bottom Section */
+    .bottom-section {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-top: 60px;
+      gap: 15px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bottom-label {
+      font-family: var(--sans);
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .bottom-line-container {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bottom-thick {
+      height: 12px;
+      background: var(--text);
+      width: 15%;
+    }
+
+    .bottom-thin {
+      height: 3px;
+      background: var(--text);
+      flex-grow: 1;
+    }
+
+    .bottom-code {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      color: #666;
+    }
+
+    .return-link {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      z-index: 100;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: bold;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .return-link:hover {
+      color: #000;
+    }
+
+    /* Mobile tweaking */
+    @media (max-width: 800px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .big-num { font-size: 80px; }
+      .top-right { position: relative; text-align: left; margin-top: 20px; }
+      .top-right-dash { float: left; margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="return-link">&lt; RETURN</a>
+
+  <div class="top-section">
+    <div style="margin-left: max(50px, 10vw);">
+      <div class="top-line"></div>
+      <div class="top-sub">[ 1.6 / 3 33033 ]</div>
+    </div>
+    <div class="top-right">
+      BHC/<br>
+      CLOUD_GATEWAY<br>
+      <div class="top-right-dash"></div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <!-- Col 1 -->
+    <!-- Col 1 (Empty per user request) -->
+    <div class="col left-col">
+    </div>
+
+    <!-- Col 2 -->
+    <!-- Col 2 (Empty per user request) -->
+    <div class="col mid-col">
+    </div>
+
+    <!-- Col 3: Yellow Box -->
+    <div class="col right-col yellow-box">
+      <div class="yellow-box-header">
+        <div class="yellow-dash"></div>
+      </div>
+      
+      <div class="yellow-title"></div>
+
+
+      <form id="loginForm">
+        <div class="input-row">
+          <label>USERNAME</label>
+          <input type="text" id="username" autocomplete="off" spellcheck="false" autofocus>
+        </div>
+        <div class="input-row">
+          <label>PASSCODE</label>
+          <input type="password" id="password">
+        </div>
+        
+        <div class="submit-row">
+          <button type="submit" class="submit-btn">% ENTER</button>
+          <div id="errorMsg" class="error-msg"></div>
+        </div>
+      </form>
+
+      <div class="yellow-bottom-decor">
+        <div class="bar"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-section">
+    <div class="bottom-label"></div>
+    <div style="font-family:var(--mono); font-size:10px; font-weight:bold; margin-top:5px;">INC_SET</div>
+    <div class="bottom-line-container">
+      <div class="bottom-thick"></div>
+      <div class="bottom-thin"></div>
+    </div>
+    <div class="bottom-code">[ 71/AUTH/25565000 ]</div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const u = document.getElementById('username').value.trim().toLowerCase();
+      const p = document.getElementById('password').value.trim();
+      const err = document.getElementById('errorMsg');
+      
+      // Allow combinations of 'kittipol' (or with prepram)
+      if (u.includes('kittipol') && p === '204004') {
+        err.style.color = '#00a000';
+        err.innerText = 'ACCESS GRANTED.';
+        setTimeout(() => {
+          // Changed to window.location.replace to update URL cleanly
+          window.location.replace('cloud.html');
+        }, 600);
+      } else {
+        err.style.color = '#d00';
+        err.innerText = 'ERR / INVALID';
+      }
+    });
+  </script>
+</body>
+</html>
