@@ -423,38 +423,34 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const authRef = database.ref('system/admin_auth');
-
-    // KNO3 Logic: XOR Obfuscation Key
     const kData = "KNO3";
     const xor = (txt, k) => {
       let res = "";
-      for(let i=0; i<txt.length; i++){
+      for (let i = 0; i < txt.length; i++) {
         res += String.fromCharCode(txt.charCodeAt(i) ^ k.charCodeAt(i % k.length));
       }
       return btoa(res);
     };
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      
+
       const u = document.getElementById('username').value.trim();
       const p = document.getElementById('password').value.trim();
       const err = document.getElementById('errorMsg');
-      
+
       err.style.color = '#f2e600';
       err.innerText = 'CONNECTING TO AUTH SERVER...';
 
-      // 1. Fetch encrypted targets from Firebase "Server"
       authRef.once('value').then(snapshot => {
         const data = snapshot.val();
-        
+
         if (!data) {
           err.style.color = '#ff0000';
           err.innerText = 'ERR / DATABASE_OFFLINE';
           return;
         }
 
-        // 2. Perform XOR verification against fetched data
         if (xor(u, kData) === data.uEnc && xor(p, kData) === data.pEnc) {
           err.style.color = '#00ff00';
           err.innerText = 'ACCESS GRANTED. INITIALIZING...';
@@ -473,4 +469,5 @@
     });
   </script>
 </body>
+
 </html>
