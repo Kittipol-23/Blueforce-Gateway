@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
     :root {
       --bg: #000000;
       --text: #ffffff;
-      --yellow: #f2e600; 
+      --yellow: #f2e600;
       --mono: 'Space Mono', monospace;
       --sans: 'Inter', Helvetica, sans-serif;
     }
@@ -28,7 +29,9 @@
       justify-content: space-between;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     /* Top Section */
     .top-section {
@@ -93,8 +96,13 @@
       margin-bottom: 20px;
       margin-left: -20px;
     }
-    @keyframes spinY { 100% { transform: rotateY(360deg); } }
-    
+
+    @keyframes spinY {
+      100% {
+        transform: rotateY(360deg);
+      }
+    }
+
     .sub-col-text {
       font-family: var(--sans);
       font-size: 14px;
@@ -102,6 +110,7 @@
       line-height: 1.4;
       color: #eee;
     }
+
     .sub-col-text span {
       display: block;
       margin: 8px 0;
@@ -122,7 +131,11 @@
       text-transform: uppercase;
       transition: all 0.2s;
     }
-    .play-audio-btn:hover { background: var(--yellow); color: #000; }
+
+    .play-audio-btn:hover {
+      background: var(--yellow);
+      color: #000;
+    }
 
     /* Right Column (Yellow Box) */
     .yellow-box {
@@ -141,14 +154,19 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .yellow-dash { width: 16px; height: 6px; background: #000; }
+
+    .yellow-dash {
+      width: 16px;
+      height: 6px;
+      background: #000;
+    }
 
     .gb-title {
       font-family: var(--sans);
       font-weight: 900;
       font-size: 28px;
       margin: 0;
-      color: rgba(0,0,0,0.85);
+      color: rgba(0, 0, 0, 0.85);
       line-height: 1;
       letter-spacing: -1px;
     }
@@ -160,10 +178,21 @@
       margin: 20px 0;
       max-height: 200px;
     }
-    .gb-list-container::-webkit-scrollbar { width: 4px; }
-    .gb-list-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.5); }
-    
-    .gb-list { list-style: none; padding: 0; margin: 0; }
+
+    .gb-list-container::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .gb-list-container::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .gb-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
     .gb-list li {
       font-family: var(--mono);
       font-size: 11px;
@@ -172,10 +201,19 @@
       color: #111;
       word-wrap: break-word;
     }
-    .gb-list li::before { content: ">_ "; opacity: 0.5; }
+
+    .gb-list li::before {
+      content: ">_ ";
+      opacity: 0.5;
+    }
 
     /* Guestbook Inputs */
-    .input-grp { margin-top: auto; z-index: 10; position: relative;}
+    .input-grp {
+      margin-top: auto;
+      z-index: 10;
+      position: relative;
+    }
+
     .input-grp label {
       display: block;
       font-family: var(--mono);
@@ -185,7 +223,13 @@
       color: #333;
       text-transform: uppercase;
     }
-    .input-row { display: flex; gap: 10px; align-items: flex-end; }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
     .input-row input {
       flex: 1;
       background: transparent;
@@ -198,6 +242,7 @@
       padding: 5px 0;
       outline: none;
     }
+
     .submit-btn {
       background: #000;
       color: var(--yellow);
@@ -210,7 +255,10 @@
       text-transform: uppercase;
       transition: transform 0.1s;
     }
-    .submit-btn:active { transform: scale(0.98); }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
 
     .yellow-bottom-decor {
       position: absolute;
@@ -220,8 +268,18 @@
       align-items: center;
       gap: 5px;
     }
-    .yellow-bottom-decor .bar { width: 12px; height: 6px; background: #000; }
-    .yellow-bottom-decor .line { width: 80px; height: 2px; background: rgba(0,0,0,0.2); }
+
+    .yellow-bottom-decor .bar {
+      width: 12px;
+      height: 6px;
+      background: #000;
+    }
+
+    .yellow-bottom-decor .line {
+      width: 80px;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.2);
+    }
 
     /* Bottom Section */
     .bottom-section {
@@ -234,10 +292,32 @@
       margin-left: auto;
       margin-right: auto;
     }
-    .bottom-line-container { flex-grow: 1; display: flex; align-items: center; gap: 10px; }
-    .bottom-thick { height: 12px; background: var(--text); width: 15%; }
-    .bottom-thin { height: 3px; background: var(--text); flex-grow: 1; }
-    .bottom-code { font-family: var(--mono); font-size: 10px; font-weight: bold; color: #666; }
+
+    .bottom-line-container {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bottom-thick {
+      height: 12px;
+      background: var(--text);
+      width: 15%;
+    }
+
+    .bottom-thin {
+      height: 3px;
+      background: var(--text);
+      flex-grow: 1;
+    }
+
+    .bottom-code {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: bold;
+      color: #666;
+    }
 
     /* Return link */
     .return-link {
@@ -252,17 +332,37 @@
       text-decoration: none;
       transition: color 0.2s;
     }
-    .return-link:hover { color: #fff; }
 
-    .iframe-container { position: absolute; top:-9999px; width:1px; height:1px; }
+    .return-link:hover {
+      color: #fff;
+    }
+
+    .iframe-container {
+      position: absolute;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+    }
 
     @media (max-width: 800px) {
-      .main-grid { grid-template-columns: 1fr; }
-      .top-right { position: relative; text-align: left; margin-top: 20px; }
-      .top-right-dash { float: left; margin-bottom: 20px; }
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-right {
+        position: relative;
+        text-align: left;
+        margin-top: 20px;
+      }
+
+      .top-right-dash {
+        float: left;
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <a href="cloud.html" class="return-link">&lt; ABORT</a>
@@ -305,9 +405,9 @@
       <div class="yellow-box-header">
         <div class="yellow-dash"></div>
       </div>
-      
+
       <div class="gb-title">SURVIVOR<br>LOG</div>
-      
+
       <div class="gb-list-container">
         <ul id="gbList" class="gb-list"></ul>
       </div>
@@ -319,7 +419,7 @@
           <button id="gbSubmit" class="submit-btn">% LOG</button>
         </div>
       </div>
-      
+
       <div class="yellow-bottom-decor">
         <div class="bar"></div>
         <div class="line"></div>
@@ -335,61 +435,99 @@
     <div class="bottom-code">[ 99/MEME/25565000 ]</div>
   </div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
   <script>
     // Audio will auto-play via the <audio> tag.
     // Ensure you place 'freebird.mp3' inside the 'SFX' folder properly.
 
-    // Guestbook logic
+    // ==========================================
+    // CONFIGURATION: FIREBASE CONFIG INTEGRATED
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBBeGylia72L4jFcyGn4qNCVRrJsZKiII",
+      authDomain: "easter-egg-survivor-log.firebaseapp.com",
+      projectId: "easter-egg-survivor-log",
+      storageBucket: "easter-egg-survivor-log.firebasestorage.app",
+      messagingSenderId: "994643341058",
+      appId: "1:994643341058:web:f75785941442300612dc1b",
+      measurementId: "G-K4NDJD2LFZ",
+      databaseURL: "https://easter-egg-survivor-log-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const guestbookRef = database.ref('guestbook');
+
+    // Guestbook UI Elements
     const gbList = document.getElementById('gbList');
     const gbInput = document.getElementById('gbInput');
     const gbSubmit = document.getElementById('gbSubmit');
 
-    const initial = JSON.parse(localStorage.getItem('dayz_easteregg') || '[]');
-    if(initial.length === 0){
-        // Provide some initial fun logs
-        initial.push({name: "Unknown_Scav", date: "DAY-102"});
-        initial.push({name: "Kittipol_P", date: "SECRET"});
-        localStorage.setItem('dayz_easteregg', JSON.stringify(initial));
-    }
-
+    // Load & Listen to Global Entries
     function loadEntries() {
-      const entries = JSON.parse(localStorage.getItem('dayz_easteregg') || '[]');
-      gbList.innerHTML = '';
-      
-      // Reverse so the newest is at the top!
-      const reversed = [...entries].reverse();
-      
-      reversed.forEach(e => {
-        const li = document.createElement('li');
-        li.innerText = `[${e.date}] ${e.name}`;
-        gbList.appendChild(li);
+      // Listen for data changes in real-time
+      guestbookRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        gbList.innerHTML = '';
+
+        if (data) {
+          // Convert object to array for sorting/reversing
+          const entries = Object.keys(data).map(key => data[key]);
+
+          // Reverse so the newest is at the top!
+          const reversed = entries.reverse();
+
+          reversed.forEach(e => {
+            const li = document.createElement('li');
+            li.innerText = `[${e.date}] ${e.name}`;
+            gbList.appendChild(li);
+          });
+        } else {
+          // Fallback if DB is empty
+          const li = document.createElement('li');
+          li.innerText = `[PROTOCOL] AWAITING FIRST LOG...`;
+          gbList.appendChild(li);
+        }
+
+        // Scroll to the very top to see the newest entries immediately
+        gbList.parentElement.scrollTop = 0;
       });
-      // Scroll to the very top to see the newest entries immediately
-      gbList.parentElement.scrollTop = 0;
     }
 
     gbSubmit.addEventListener('click', submitEntry);
-    gbInput.addEventListener('keypress', function(e) {
-      if(e.key === 'Enter') submitEntry();
+    gbInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') submitEntry();
     });
 
     function submitEntry() {
       const name = gbInput.value.trim();
-      if(!name) return;
-      
-      const entries = JSON.parse(localStorage.getItem('dayz_easteregg') || '[]');
+      if (!name || firebaseConfig.apiKey === "YOUR_API_KEY") {
+        if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+          alert("ERROR: FIREBASE CONFIG NOT SET. PLEASE PASTE YOUR CONFIG FROM FIREBASE CONSOLE.");
+        }
+        return;
+      }
+
       const d = new Date();
       // Format: YYMMDD-HHMM
-      const dateStr = `${d.getFullYear().toString().substring(2)}${(d.getMonth()+1).toString().padStart(2,'0')}${d.getDate().toString().padStart(2,'0')}-${d.getHours().toString().padStart(2,'0')}${d.getMinutes().toString().padStart(2,'0')}`;
-      
-      entries.push({ name: name, date: dateStr });
-      localStorage.setItem('dayz_easteregg', JSON.stringify(entries));
-      
+      const dateStr = `${d.getFullYear().toString().substring(2)}${(d.getMonth() + 1).toString().padStart(2, '0')}${d.getDate().toString().padStart(2, '0')}-${d.getHours().toString().padStart(2, '0')}${d.getMinutes().toString().padStart(2, '0')}`;
+
+      // Push to Global Database
+      guestbookRef.push({
+        name: name,
+        date: dateStr,
+        timestamp: Date.now()
+      });
+
       gbInput.value = '';
-      loadEntries();
     }
 
     loadEntries();
   </script>
 </body>
+
 </html>
