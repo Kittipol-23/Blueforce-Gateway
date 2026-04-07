@@ -87,20 +87,13 @@
       width: 100%;
     }
 
-    /* Left Col Specific */
-    .big-rat {
-      font-size: 120px;
-      line-height: 1;
-      animation: spinY 1.2s linear infinite;
-      display: inline-block;
+    /* Left Col: 3D Model Display */
+    .big-rat-model {
+      width: 200px;
+      height: 200px;
       margin-bottom: 20px;
       margin-left: -20px;
-    }
-
-    @keyframes spinY {
-      100% {
-        transform: rotateY(360deg);
-      }
+      --poster-color: transparent;
     }
 
     .sub-col-text {
@@ -404,6 +397,8 @@
       }
     }
   </style>
+  <!-- 3D Model Support -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
 </head>
 
 <body>
@@ -423,9 +418,18 @@
   </div>
 
   <div class="main-grid">
-    <!-- Col 1: Rat -->
+    <!-- Col 1: 3D Rat Model -->
     <div class="col left-col">
-      <div class="big-rat">🐀</div>
+      <model-viewer 
+        src="Models/Spin_Rat.glb" 
+        auto-rotate 
+        rotation-per-second="180deg" 
+        disable-zoom 
+        disable-pan 
+        camera-controls 
+        touch-action="none"
+        class="big-rat-model">
+      </model-viewer>
       <div class="sub-col-text">
         Hazard Level<br>Omega
         <span>-</span>
