@@ -241,7 +241,8 @@
       color: #000;
       padding: 5px 0;
       outline: none;
-      caret-color: transparent; /* Hide default caret */
+      caret-color: transparent;
+      /* Hide default caret */
     }
 
     /* Custom Blinking Block Cursor */
@@ -250,8 +251,8 @@
       display: flex;
       align-items: center;
     }
-    
-    #gbInput:focus + #cursor,
+
+    #gbInput:focus+#cursor,
     #cursor.active {
       display: inline-block;
     }
@@ -263,13 +264,16 @@
       width: 10px;
       height: 18px;
       background: #000;
-      display: inline-block; /* Show by default */
+      display: inline-block;
+      /* Show by default */
       pointer-events: none;
       animation: blink 0.8s step-end infinite;
     }
 
     @keyframes blink {
-      50% { opacity: 0; }
+      50% {
+        opacity: 0;
+      }
     }
 
     /* Hidden measure tool to prevent layout thrashing */
@@ -517,12 +521,12 @@
         ratAudio.play().catch(e => console.error("Audio playback stalled:", e));
       }
       // Remove all listeners once play is attempted
-      ['click','keydown','scroll','touchstart'].forEach(evt => 
+      ['click', 'keydown', 'scroll', 'touchstart'].forEach(evt =>
         window.removeEventListener(evt, playAudio)
       );
     };
-    ['click','keydown','scroll','touchstart'].forEach(evt => 
-      window.addEventListener(evt, playAudio, {once: true})
+    ['click', 'keydown', 'scroll', 'touchstart'].forEach(evt =>
+      window.addEventListener(evt, playAudio, { once: true })
     );
 
     // Cursor Follow Logic using isolated #measure element
@@ -532,9 +536,9 @@
       const width = measure.offsetWidth;
       cursor.style.left = width + 'px';
     };
-    
+
     gbInput.addEventListener('input', updateCursorPosition);
-    
+
     // Maintain Focus & Cursor on load
     window.addEventListener('DOMContentLoaded', () => {
       gbInput.focus();
@@ -562,40 +566,45 @@
     // Function to check if user already logged
     function checkAlreadyLogged() {
       if (localStorage.getItem('hasLoggedSurvivor') === 'true') {
-        inputGrp.innerHTML = '<div style="font-family: var(--mono); font-size: 14px; font-weight: bold; color: #000; text-align: center; border: 2px dashed #000; padding: 10px;">SIGNATURE ARCHIVED // LOGGED</div>';
+        inputGrp.innerHTML = '<div id="loggedBypass" style="font-family: var(--mono); font-size: 14px; font-weight: bold; color: #000; text-align: center; border: 2px dashed #000; padding: 10px; cursor: pointer;">SIGNATURE ARCHIVED // LOGGED</div>';
+
+        // DEV BYPASS: Click Logged box 3 times to reset
+        let clickCount = 0;
+        document.getElementById('loggedBypass').addEventListener('click', () => {
+          clickCount++;
+          if (clickCount >= 23) {
+            localStorage.removeItem('hasLoggedSurvivor');
+            location.reload();
+          }
+        });
       }
     }
 
     // Load & Listen to Global Entries
-    let isFirstLoad = true;
     function loadEntries() {
-      guestbookRef.on('value', (snapshot) => {
+      // 1. Load initial data once without animation
+      guestbookRef.once('value').then((snapshot) => {
         const data = snapshot.val();
-        
-        // Handle loading
-        if (isFirstLoad) {
-          gbList.innerHTML = '';
-          if (data) {
-            const entries = Object.keys(data).map(key => data[key]);
-            const reversed = entries.sort((a,b) => (a.timestamp || 0) - (b.timestamp || 0)).reverse();
-            reversed.forEach(e => {
-              const li = document.createElement('li');
-              li.innerText = `[${e.date}] ${e.name}`;
-              gbList.appendChild(li);
-            });
-          }
-          isFirstLoad = false;
+        gbList.innerHTML = '';
+        if (data) {
+          const entries = Object.keys(data).map(key => data[key]);
+          // Sort and show existing logs immediately (no typewriter)
+          const reversed = entries.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0)).reverse();
+          reversed.forEach(e => {
+            const li = document.createElement('li');
+            li.innerText = `[${e.date}] ${e.name}`;
+            gbList.appendChild(li);
+          });
         }
-      });
 
-      // Listen specifically for new entries to trigger typewriter
-      guestbookRef.limitToLast(1).on('child_added', (snapshot) => {
-        if (!isFirstLoad) {
+        // 2. Start listener for NEW arrivals only (timestamp > now)
+        const loadTime = Date.now();
+        guestbookRef.orderByChild('timestamp').startAt(loadTime + 1).on('child_added', (snapshot) => {
           const e = snapshot.val();
           const li = document.createElement('li');
           gbList.prepend(li); // Put newest at the top
           typewriter(li, `[${e.date}] ${e.name}`, 80);
-        }
+        });
       });
     }
 

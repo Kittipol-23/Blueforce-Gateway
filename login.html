@@ -384,24 +384,37 @@
   </div>
 
   <script>
+    // KNO3 Logic: Simple XOR Obfuscation (Hacker vibe)
+    const kData = "KNO3";
+    const xor = (txt, k) => {
+      let res = "";
+      for(let i=0; i<txt.length; i++){
+        res += String.fromCharCode(txt.charCodeAt(i) ^ k.charCodeAt(i % k.length));
+      }
+      return btoa(res);
+    };
+
+    // Obfuscated targets for Kittipol_Prepram / 23112545 (Verified)
+    const uEnc = "ACc7RyI+IF8UHj1WOzwuXg=="; 
+    const pEnc = "eX1+Anl7ewY=";    
+
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      const u = document.getElementById('username').value.trim().toLowerCase();
+      const u = document.getElementById('username').value.trim();
       const p = document.getElementById('password').value.trim();
       const err = document.getElementById('errorMsg');
       
-      // Allow combinations of 'kittipol' (or with prepram)
-      if (u.includes('kittipol') && p === '204004') {
-        err.style.color = '#00a000';
-        err.innerText = 'ACCESS GRANTED.';
+      // Verification using our "KNO3 Key"
+      if (xor(u, kData) === uEnc && xor(p, kData) === pEnc) {
+        err.style.color = '#00ff00';
+        err.innerText = 'ACCESS GRANTED. DECRYPTING...';
         setTimeout(() => {
-          // Changed to window.location.replace to update URL cleanly
           window.location.replace('cloud.html');
-        }, 600);
+        }, 800);
       } else {
-        err.style.color = '#d00';
-        err.innerText = 'ERR / INVALID';
+        err.style.color = '#ff0000';
+        err.innerText = 'ERR / UNAUTHORIZED';
       }
     });
   </script>
