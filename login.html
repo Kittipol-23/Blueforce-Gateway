@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,8 @@
     :root {
       --bg: #f4f4f7;
       --text: #1a1a1a;
-      --yellow: #f2e600; /* Vibrant yellow from image */
+      --yellow: #f2e600;
+      /* Vibrant yellow from image */
       --mono: 'Space Mono', monospace;
       --sans: 'Inter', Helvetica, sans-serif;
     }
@@ -28,7 +30,9 @@
       justify-content: space-between;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     /* Top Section */
     .top-section {
@@ -238,7 +242,7 @@
     .yellow-bottom-decor .line {
       width: 80px;
       height: 2px;
-      background: rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.2);
     }
 
     /* Bottom Section */
@@ -308,12 +312,25 @@
       .main-grid {
         grid-template-columns: 1fr;
       }
-      .big-num { font-size: 80px; }
-      .top-right { position: relative; text-align: left; margin-top: 20px; }
-      .top-right-dash { float: left; margin-bottom: 20px; }
+
+      .big-num {
+        font-size: 80px;
+      }
+
+      .top-right {
+        position: relative;
+        text-align: left;
+        margin-top: 20px;
+      }
+
+      .top-right-dash {
+        float: left;
+        margin-bottom: 20px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <a href="index.html" class="return-link">&lt; RETURN</a>
@@ -346,7 +363,7 @@
       <div class="yellow-box-header">
         <div class="yellow-dash"></div>
       </div>
-      
+
       <div class="yellow-title"></div>
 
 
@@ -359,7 +376,7 @@
           <label>PASSCODE</label>
           <input type="password" id="password">
         </div>
-        
+
         <div class="submit-row">
           <button type="submit" class="submit-btn">% ENTER</button>
           <div id="errorMsg" class="error-msg"></div>
@@ -383,8 +400,31 @@
     <div class="bottom-code">[ 71/AUTH/25565000 ]</div>
   </div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
   <script>
-    // KNO3 Logic: Simple XOR Obfuscation (Hacker vibe)
+    // ==========================================
+    // CONFIGURATION: FIREBASE AUTH BRIDGE
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDBBeGylia72L4jFcyGn4qNCVRrJsZKiII",
+      authDomain: "easter-egg-survivor-log.firebaseapp.com",
+      projectId: "easter-egg-survivor-log",
+      storageBucket: "easter-egg-survivor-log.firebasestorage.app",
+      messagingSenderId: "994643341058",
+      appId: "1:994643341058:web:f75785941442300612dc1b",
+      measurementId: "G-K4NDJD2LFZ",
+      databaseURL: "https://easter-egg-survivor-log-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const authRef = database.ref('system/admin_auth');
+
+    // KNO3 Logic: XOR Obfuscation Key
     const kData = "KNO3";
     const xor = (txt, k) => {
       let res = "";
@@ -394,10 +434,6 @@
       return btoa(res);
     };
 
-    // Obfuscated targets for Kittipol_Prepram / 23112545 (Verified)
-    const uEnc = "ACc7RyI+IF8UHj1WOzwuXg=="; 
-    const pEnc = "eX1+Anl7ewY=";    
-
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
@@ -405,17 +441,35 @@
       const p = document.getElementById('password').value.trim();
       const err = document.getElementById('errorMsg');
       
-      // Verification using our "KNO3 Key"
-      if (xor(u, kData) === uEnc && xor(p, kData) === pEnc) {
-        err.style.color = '#00ff00';
-        err.innerText = 'ACCESS GRANTED. DECRYPTING...';
-        setTimeout(() => {
-          window.location.replace('cloud.html');
-        }, 800);
-      } else {
+      err.style.color = '#f2e600';
+      err.innerText = 'CONNECTING TO AUTH SERVER...';
+
+      // 1. Fetch encrypted targets from Firebase "Server"
+      authRef.once('value').then(snapshot => {
+        const data = snapshot.val();
+        
+        if (!data) {
+          err.style.color = '#ff0000';
+          err.innerText = 'ERR / DATABASE_OFFLINE';
+          return;
+        }
+
+        // 2. Perform XOR verification against fetched data
+        if (xor(u, kData) === data.uEnc && xor(p, kData) === data.pEnc) {
+          err.style.color = '#00ff00';
+          err.innerText = 'ACCESS GRANTED. INITIALIZING...';
+          setTimeout(() => {
+            window.location.replace('cloud.html');
+          }, 800);
+        } else {
+          err.style.color = '#ff0000';
+          err.innerText = 'ERR / UNAUTHORIZED_ACCESS';
+        }
+      }).catch(err_obj => {
         err.style.color = '#ff0000';
-        err.innerText = 'ERR / UNAUTHORIZED';
-      }
+        err.innerText = 'ERR / CONNECTION_LOST';
+        console.error(err_obj);
+      });
     });
   </script>
 </body>
