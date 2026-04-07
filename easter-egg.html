@@ -247,9 +247,12 @@
     /* Custom Blinking Block Cursor */
     .input-row {
       position: relative;
+      display: flex;
+      align-items: center;
     }
     
-    #gbInput:focus + #cursor {
+    #gbInput:focus + #cursor,
+    #cursor.active {
       display: inline-block;
     }
 
@@ -260,13 +263,23 @@
       width: 10px;
       height: 18px;
       background: #000;
-      display: none;
+      display: inline-block; /* Show by default */
       pointer-events: none;
       animation: blink 0.8s step-end infinite;
     }
 
     @keyframes blink {
       50% { opacity: 0; }
+    }
+
+    /* Hidden measure tool to prevent layout thrashing */
+    #measure {
+      position: absolute;
+      visibility: hidden;
+      white-space: pre;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: bold;
     }
 
     .submit-btn {
@@ -442,7 +455,8 @@
         <label>CALLSIGN</label>
         <div class="input-row">
           <input type="text" id="gbInput" autocomplete="off" spellcheck="false" maxlength="40">
-          <div id="cursor"></div>
+          <div id="cursor" class="active"></div>
+          <div id="measure"></div>
           <button id="gbSubmit" class="submit-btn">% LOG</button>
         </div>
       </div>
@@ -488,33 +502,43 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const guestbookRef = database.ref('guestbook');
-
-    // UI Elements
     const gbList = document.getElementById('gbList');
     const gbInput = document.getElementById('gbInput');
     const gbSubmit = document.getElementById('gbSubmit');
     const inputGrp = document.querySelector('.input-grp');
     const cursor = document.getElementById('cursor');
+    const measure = document.getElementById('measure');
     const ratAudio = document.getElementById('ratAudio');
 
-    // Audio Autoplay Fix: Trigger audio on first click
-    window.addEventListener('click', () => {
+    // Audio Autoplay Fix: Trigger on any first user interaction
+    const playAudio = () => {
+      console.log("Attempting audio trigger...");
       if (ratAudio.paused) {
-        ratAudio.play().catch(e => console.log("Audio play deferred..."));
+        ratAudio.play().catch(e => console.error("Audio playback stalled:", e));
       }
-    }, { once: true });
+      // Remove all listeners once play is attempted
+      ['click','keydown','scroll','touchstart'].forEach(evt => 
+        window.removeEventListener(evt, playAudio)
+      );
+    };
+    ['click','keydown','scroll','touchstart'].forEach(evt => 
+      window.addEventListener(evt, playAudio, {once: true})
+    );
 
-    // Cursor Follow Logic
-    gbInput.addEventListener('input', () => {
-      const text = gbInput.value;
-      const span = document.createElement('span');
-      span.style.font = getComputedStyle(gbInput).font;
-      span.style.visibility = 'hidden';
-      span.style.whiteSpace = 'pre';
-      span.innerText = text;
-      document.body.appendChild(span);
-      cursor.style.left = span.offsetWidth + 'px';
-      document.body.removeChild(span);
+    // Cursor Follow Logic using isolated #measure element
+    const updateCursorPosition = () => {
+      // Use textContent to accurately measure spaces
+      measure.textContent = gbInput.value;
+      const width = measure.offsetWidth;
+      cursor.style.left = width + 'px';
+    };
+    
+    gbInput.addEventListener('input', updateCursorPosition);
+    
+    // Maintain Focus & Cursor on load
+    window.addEventListener('DOMContentLoaded', () => {
+      gbInput.focus();
+      updateCursorPosition();
     });
 
     // Typewriter Effect Function
@@ -599,7 +623,7 @@
       });
 
       gbInput.value = '';
-      cursor.style.left = '0px';
+      updateCursorPosition();
     }
 
     loadEntries();
