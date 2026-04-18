@@ -529,6 +529,25 @@ body::after {
   align-items: center;
 }
 
+.nav-logo {
+  height: 24px;
+  width: auto;
+  opacity: 0.9;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.site-logo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10;
+}
+
+.nav-logo:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
 .cloud-toggle {
   cursor: pointer;
   margin-left: 8px;
@@ -629,6 +648,10 @@ html.dark-mode {
   --text-color: #e0e0e0;
   --node-bg: #e8e8e8;
   --line-color: #e0e0e0;
+}
+
+html.dark-mode .nav-logo {
+  opacity: 0.8;
 }
 
 html.dark-mode body {
